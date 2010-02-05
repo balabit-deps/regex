@@ -1,0 +1,14 @@
+Source: regex
+Section: libs
+Priority: optional
+Maintainer: Tamas Pal <folti@balabit.com>
+Build-Depends: msvc-compat-dev
+Standards-Version: 3.8.0
+
+Package: libregex-dev
+Section: libdevel
+Architecture: any
+Description: Development files for GNU regex lib on windows.
+ These are the development files for GNU regex, needed for compilation of
+ programs or toolkits which use it.
+

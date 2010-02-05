@@ -43,12 +43,15 @@ DEFS = @DEFS@
 
 SHELL = /bin/sh
 
-subdirs = doc test
+subdirs = test
 
-default all:: regex.o
+default all:: regex.o alloca.o
 .PHONY: default all
 
 regex.o: regex.c regex.h
+	$(CC) $(CFLAGS) $(CPPFLAGS) $(DEFS) -I. -I$(srcdir) -c $<
+
+alloca.o: alloca.c alloca.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) $(DEFS) -I. -I$(srcdir) -c $<
 
 clean mostlyclean::

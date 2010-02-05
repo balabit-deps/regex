@@ -1,0 +1,6 @@
+regex (0.12.w32-1) zorpzmcdeps10; urgency=low
+
+  * packed for ZMC 3.3FR1
+
+ -- Tamas Pal <folti@balabit.com>  Mon, 18 Jan 2010 11:55:24 +0100
+

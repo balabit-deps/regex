@@ -1,0 +1,86 @@
+#!/bin/sh
+
+set -e
+
+ZWACONF=./.zwaconf
+
+TARGET=
+
+get_version(){
+      head -1 debian/changelog | sed -e 's/.*(\([^)]*\)).*/\1/'
+}
+
+sed_file() {
+
+    while [ -n "$1" ]; do
+        in=$1.in
+        out=$1
+
+        sed \
+            -e "s/@VERSION@/${VERSION}/g" \
+            $in > $out
+        shift
+    done
+}
+
+if [ -f $ZWACONF ]; then
+  . $ZWACONF
+fi
+
+if [ -z "$TARGET" ]; then
+  TARGET=$PWD/out
+fi
+
+if [ -z "$MAKE" ];then
+  MAKE=make
+fi
+
+cmd=$1
+shift
+case "$cmd" in
+  get-version)
+    get_version
+    ;;
+  prepare-dist)
+    VERSION=`get_version`
+    ;;
+  dist-exclude-list|build-exclude-list)
+    echo "out obj *.aqt *.ncb *.suo *.vcproj.*.user"
+    ;;
+  bootstrap)
+    ;;
+  configure)
+    OPTIONS=`getopt -l "help,prefix:" 'p:' $*`
+    if [ $? -ne 0 ]; then
+      echo "$0: unknown flags..."
+      exit 1
+    fi
+
+    eval set -- "$OPTIONS"
+    while true ; do
+      _arg=$1
+
+      if [ -z "$_arg" ]; then
+        break
+      fi
+      case $1 in
+        --prefix)
+          shift
+          TARGET="$1"
+          ;;
+      esac
+      shift
+    done
+    echo "TARGET=$TARGET" > $ZWACONF
+    ;;
+  make)
+      echo "This module is windows only."
+    ;;
+  *)
+    echo "Unknown command: $cmd"
+    exit 1
+    ;;
+esac
+exit 0
+
+# vim: ts=2 sw=2 expandtab
