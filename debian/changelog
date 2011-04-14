@@ -1,3 +1,10 @@
+regex (0.12.w32-1.syslogng41.1) syslogngdeps30; urgency=low
+
+  * re-released for syslog-ng-deps-3.0
+  * disabled Unicode support.
+
+ -- Tamas Pal <folti@balabit.com>  Thu, 14 Apr 2011 18:36:51 +0200
+
 regex (0.12.w32-1) zorpzmcdeps10; urgency=low
 
   * packed for ZMC 3.3FR1
