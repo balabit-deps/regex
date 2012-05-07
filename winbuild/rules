@@ -2,7 +2,13 @@
 STAMPDIR=winbuild/stamps
 STAGINGDIR=winbuild/staging
 
+ifneq (,$(findstring mingw,$(ZBS_BUILDER_TYPE)))
+BUILDCMD=./balabit-unix-build
+MAKETARGET=libregex.dll
+else
 BUILDCMD=./balabit-vs-build
+MAKETARGET=
+endif
 
 all: binary
 
@@ -21,7 +27,7 @@ $(STAMPDIR)/stamp-configure: setup
 
 build:  $(STAMPDIR)/stamp-build
 $(STAMPDIR)/stamp-build: configure
-	$(BUILDCMD) make
+	$(BUILDCMD) make $(MAKETARGET)
 	touch $@
 
 install: $(STAMPDIR)/stamp-install

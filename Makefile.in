@@ -72,6 +72,9 @@ config.status: configure
 Makefile: Makefile.in config.status
 	sh config.status
 
+libregex.dll: regex.o alloca.o
+	$(CC) -o $@ -shared -Wl,-export-all -Wl,--enable-auto-image-base -Wl,--out-implib=$@.a regex.o alloca.o
+
 makeargs = $(MFLAGS) CPPFLAGS='$(CPPFLAGS)' CFLAGS='$(CFLAGS)' CC='$(CC)' \
 DEFS='$(DEFS)' LDFLAGS='$(LDFLAGS)' LOADLIBES='$(LOADLIBES)'
 

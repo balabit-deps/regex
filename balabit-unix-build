@@ -72,9 +72,24 @@ case "$cmd" in
       shift
     done
     echo "TARGET=$TARGET" > $ZWACONF
+    if [ "$ZBS_BUILDER_TYPE" = "mingw" ]; then
+      ./configure --prefix $TARGET
+    fi
     ;;
   make)
-      echo "This module is windows only."
+      if [ "$ZBS_BUILDER_TYPE" = "mingw" ]; then
+        case $1 in
+          install)
+            mkdir -p $TARGET/include $TARGET/lib $TARGET/bin
+            install -v regex.h $TARGET/include
+            install -v libregex.dll $TARGET/bin
+            install -v libregex.*a $TARGET/lib
+            ;;
+          *) make $@;;
+        esac
+      else
+        echo "This module is windows only."
+      fi
     ;;
   *)
     echo "Unknown command: $cmd"
