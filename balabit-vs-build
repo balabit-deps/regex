@@ -1,22 +1,18 @@
-#!/bin/sh
+#!/bin/sh -ex
 
-ZWACONF=./.zwaconf
+ZWACONF=.zwaconf
 
 TARGET=
 
-set -e
-
 if [ -f $ZWACONF ]; then
-  . $ZWACONF
+  . ./$ZWACONF
 fi
+
+ubuild=./balabit-unix-build
 
 if [ -z "$TARGET" ]; then
   TARGET=$PWD/out
 fi
-
-get_version(){
-      head -1 debian/changelog | sed -e 's/.*(\([^)]*\)).*/\1/'
-}
 
 sed_file() {
 
@@ -32,11 +28,6 @@ sed_file() {
     done
 }
 
-CFLAGS="--cccl-die-unsupported /O2 /W3 -q /MD "
-DEFS="-D_WIN32 -g -D_WIN32_WINNT=0x0500 -DHAVE_STRING_H -DSTDC_HEADERS -DHAVE_ALLOCA_H"
-LDFLAGS="-g -Wl,/OPT:REF,/OPT:ICF"
-
-export CFLAGS DEFS LDFLAGS
 cmd=$1
 
 shift
@@ -46,61 +37,19 @@ case "$cmd" in
     ;;
   prepare-dist)
     VERSION=`get_version`
+    sed_file winbuild/build.bat
     ;;
   dist-exclude-list|build-exclude-list)
     echo "out obj *.aqt *.ncb *.suo *.vcproj.*.user"
     ;;
   bootstrap)
+    $ubuild bootstrap $@
     ;;
   configure)
-    OPTIONS=`getopt -l help,prefix: 'p:' $*`
-    if [ $? -ne 0 ]; then
-      echo "$0: unknown flags..."
-      exit 1
-    fi
-
-    eval set -- "$OPTIONS"
-    while true ; do
-      _arg=$1
-
-      if [ -z "$_arg" ]; then
-        break
-      fi
-      case $1 in
-        --prefix|-p)
-          shift
-          TARGET=`cygpath -u "$1"`
-          ;;
-      esac
-      shift
-    done
-    echo "TARGET=$TARGET" > $ZWACONF
-    set -x
-    CC=cccl LD=cccl CXX=cccl \
-    ./configure --prefix=/ 
+    $ubuild configure $@
     ;;
   make)
-    if [ -z "$1" ]; then
-      # need to do this way, otherwise po-properties' make kills libtool. dang.
-      if [ -f config.status ]; then
-        touch config.status
-        $SHELL ./config.status
-      fi
-      make
-      lib /out:regex.lib regex.obj alloca.obj
-    else
-      case $1 in
-        clean)
-          make clean
-          /usr/bin/find . -name \*.obj -or -name \*.dll -or -name \*.map -or -name \*.manifest -or -name \*.pdb -o -name \*.exp -o -name \*ilk -o -name \*.idb -o -name \*.lib | xargs -r rm -f
-          ;;
-        install)
-          mkdir -p $TARGET/include $TARGET/lib
-          install -v regex.h $TARGET/include
-          install -v regex.lib regex.obj $TARGET/lib
-          ;;
-      esac
-    fi
+    $ubuild make $@
     ;;
   *)
     echo "Unknown command: $cmd"

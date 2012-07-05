@@ -45,7 +45,7 @@ SHELL = /bin/sh
 
 subdirs = test
 
-default all:: regex.o alloca.o
+default all:: regex.o alloca.o libregex.dll
 .PHONY: default all
 
 regex.o: regex.c regex.h
