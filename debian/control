@@ -12,3 +12,10 @@ Description: Development files for GNU regex lib on windows.
  These are the development files for GNU regex, needed for compilation of
  programs or toolkits which use it.
 
+Package: libregex
+Section: libs
+Architecture: any
+Description: Development files for GNU regex lib on windows.
+ These are the development files for GNU regex, needed for compilation of
+ programs or toolkits which use it.
+
