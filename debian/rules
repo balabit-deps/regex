@@ -1,11 +1,5 @@
 #! /usr/bin/make -f
 
-include /usr/share/cdbs/1/rules/debhelper.mk
-include /usr/share/cdbs/1/rules/simple-patchsys.mk
-include /usr/share/cdbs/1/class/gnome.mk
-include /usr/share/gnome-pkg-tools/1/rules/clean-la.mk
--include /usr/share/gnome-pkg-tools/1/rules/gnome-get-source.mk
-
 GNOME_MODULE := atk
 
 LDFLAGS += -Wl,-O1 -Wl,-z,defs -Wl,--as-needed
@@ -18,3 +12,8 @@ DEB_DH_MAKESHLIBS_ARGS_libatk1.0-0 += -V"libatk1.0-0 (>= $(SHLIB_VERSION))" --ad
 
 DEB_DBG_PACKAGE_ALL := libatk1.0-dbg
 
+clean:
+	rm -rf tgz2build/stamps
+	rm -rf tgz2build/staging
+
+.PHONY: clean
