@@ -1,3 +1,9 @@
+regex (0.12.w32-1.syslogng50.1) syslogngdeps50; urgency=low
+
+  * released for syslog-ng-deps-5.0
+
+ -- Laszlo Budai <lbudai@balabit.com>  Mon, 16 Sep 2013 16:00:30 +0200
+
 regex (0.12.w32-1.syslogng41.1) syslogngdeps30; urgency=low
 
   * re-released for syslog-ng-deps-3.0
