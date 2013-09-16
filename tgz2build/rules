@@ -1,0 +1,39 @@
+#!/usr/local/bin/make -f
+STAMPDIR=tgz2build/stamps
+STAGINGDIR=tgz2build/staging
+
+BUILDCMD=./balabit-vs-build
+MAKETARGET=
+
+all: binary
+
+binary: setup configure build install
+
+setup:  $(STAMPDIR)/stamp-setup
+$(STAMPDIR)/stamp-setup:
+	mkdir -p $(STAMPDIR)
+	touch $@
+
+configure: $(STAMPDIR)/stamp-configure
+	$(BUILDCMD) configure --prefix=$(ZBS_STAGE_DIR)
+	touch $@
+
+$(STAMPDIR)/stamp-configure: setup
+
+build:  $(STAMPDIR)/stamp-build
+$(STAMPDIR)/stamp-build: configure
+	$(BUILDCMD) make $(MAKETARGET)
+	touch $@
+
+install: $(STAMPDIR)/stamp-install
+$(STAMPDIR)/stamp-install: build
+	rm -rf $(ZBS_STAGE_DIR) || true
+	$(BUILDCMD) make install
+	touch $@
+
+clean:
+	rm -rf $(STAMPDIR) || true
+	rm -rf $(STAGINGDIR) || true
+	-$(BUILDCMD) make clean
+
+.PHONY: build clean binary-indep binary-arch binary install
