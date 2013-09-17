@@ -1,3 +1,10 @@
+regex (0.12.w32-1.syslogng50.2) syslogngdeps50; urgency=low
+
+  * released for syslog-ng-deps-5.0
+  * makefile fixed
+
+ -- Laszlo Budai <lbudai@balabit.com>  Tue, 17 Sep 2013 08:48:41 +0200
+
 regex (0.12.w32-1.syslogng50.1) syslogngdeps50; urgency=low
 
   * released for syslog-ng-deps-5.0
