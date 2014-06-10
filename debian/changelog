@@ -1,3 +1,9 @@
+regex (0.12.w32-1.syslogng52.1) syslogng52; urgency=low
+
+  * released for syslog-ng-5.2
+
+ -- jviktor <jviktor@devel-57>  Tue, 10 Jun 2014 14:08:07 +0200
+
 regex (0.12.w32-1.syslogng51.1) syslogngdeps51; urgency=low
 
   * released for syslog-ng-deps-5.1
