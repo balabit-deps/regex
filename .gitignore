@@ -1,0 +1,4 @@
+*.pyc
+sbuild.py
+sbuild/*
+!sbuild/config.yml
